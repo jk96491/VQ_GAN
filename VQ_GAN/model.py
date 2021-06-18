@@ -29,11 +29,11 @@ class vq_gan(nn.Module):
         self.real_loss = None
 
     def learn_discriminator(self, inputs, real_labels, fake_labels):
-        output = self.Discriminator(inputs)
+        output = self.Discriminator(inputs).unsqueeze(1)
         real_loss = self.adversarial_loss(output, real_labels)
 
         _, fake, _ = self.Generator(inputs)
-        discriminator_result = self.Discriminator(fake.detach())
+        discriminator_result = self.Discriminator(fake.detach()).unsqueeze(1)
         fake_loss = self.adversarial_loss(discriminator_result, fake_labels)
 
         loss = real_loss + fake_loss
@@ -46,7 +46,7 @@ class vq_gan(nn.Module):
 
     def learn_generator(self, inputs, label):
         vq_loss, fake, perplexity = self.Generator(inputs)
-        discriminator_result = self.Discriminator(fake)
+        discriminator_result = self.Discriminator(fake).unsqueeze(1)
         recon_loss = self.recon_loss(inputs, fake)
         loss = self.adversarial_loss(discriminator_result, label) + vq_loss + recon_loss
 
