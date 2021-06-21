@@ -12,7 +12,7 @@ from scipy.signal import savgol_filter
 import torchvision.utils as vutils
 import os
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 
 training_data = datasets.CIFAR10(root="data", train=True, download=True,
                                   transform=transforms.Compose([
