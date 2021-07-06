@@ -30,7 +30,7 @@ device = get_device()
 
 model = vq_gan(args, num_hiddens, num_residual_layers, num_residual_hiddens,
               num_embeddings, embedding_dim,
-              commitment_cost, decay).to(device)
+              commitment_cost, decay, device).to(device)
 
 for epoch in range(args.n_epochs):
     for i, data in enumerate(train_loader):

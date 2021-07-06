@@ -1,19 +1,22 @@
+import torch
 import torch.nn as nn
 from VQ_VAE.VQ_VAE import vq_vae
 from VQ_GAN.Discriminator_layer import Discriminator
 from torch import optim
-
+import numpy as np
 
 class vq_gan(nn.Module):
     def __init__(self, args, num_hiddens, num_residual_layers, num_residual_hiddens,
               num_embeddings, embedding_dim,
-              commitment_cost, decay):
+              commitment_cost, decay, device):
         super(vq_gan, self).__init__()
         self.args = args
 
         self.Generator = vq_vae(num_hiddens, num_residual_layers, num_residual_hiddens,
               num_embeddings, embedding_dim,
               commitment_cost, decay)
+
+        self.device = device
 
         self.Discriminator = Discriminator(self.args)
 
@@ -31,6 +34,9 @@ class vq_gan(nn.Module):
     def learn_discriminator(self, inputs, real_labels, fake_labels):
         output = self.Discriminator(inputs).unsqueeze(1)
         real_loss = self.adversarial_loss(output, real_labels)
+
+        noise = np.random.normal(0, 1, inputs.shape)
+        inputs = inputs + torch.FloatTensor(noise).to(self.device)
 
         _, fake, _ = self.Generator(inputs)
         discriminator_result = self.Discriminator(fake.detach()).unsqueeze(1)
