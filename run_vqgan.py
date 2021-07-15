@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     for epoch in range(args.n_epochs):
         for i, data in enumerate(train_loader):
-            real_images, _ = data
+            real_images, label = data
             current_batch_size = real_images.size(0)
 
             inputs = real_images.clone().to(device)
@@ -55,7 +55,24 @@ if __name__ == '__main__':
             )
 
             batches_done = epoch * len(train_loader) + i
+
             if batches_done % len(train_loader) == 0 and epoch % 10 == 0:
-                temp = generator_image[0:64]
-                save_image(generator_image[0:64], "images/%d.png" % batches_done, nrow=args.nrow, normalize=True)
+                real_data = inputs[0:16]
+                test_data = generator_image[0:16]
+                label = label[0:16]
+
+                dry = test_data[label == 0]
+                normal = test_data[label == 1]
+                wet = test_data[label == 2]
+
+                if len(dry) is not 0:
+                    save_image(real_data[label == 0], "images/dry/%d_real.png" % batches_done, nrow=args.nrow, normalize=False)
+                    save_image(dry, "images/dry/%d_fake.png" % batches_done, nrow=args.nrow, normalize=False)
+                if len(normal) is not 0:
+                    save_image(real_data[label == 1], "images/normal/%d_real.png" % batches_done, nrow=args.nrow, normalize=False)
+                    save_image(normal, "images/normal/%d_fake.png" % batches_done, nrow=args.nrow, normalize=False)
+                if len(wet) is not 0:
+                    save_image(real_data[label == 2], "images/wet/%d_real.png" % batches_done, nrow=args.nrow, normalize=False)
+                    save_image(wet, "images/wet/%d_fake.png" % batches_done, nrow=args.nrow, normalize=False)
+
 

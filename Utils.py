@@ -56,6 +56,9 @@ class TrainImageFolder(datasets.ImageFolder):
 def SkinDataLoad(batch_size, generate_image):
     if generate_image is True:
         os.makedirs("images", exist_ok=True)
+        os.makedirs("images/dry", exist_ok=True)
+        os.makedirs("images/normal", exist_ok=True)
+        os.makedirs("images/wet", exist_ok=True)
 
     traindir = 'skinData\\Train'
     train_loader = torch.utils.data.DataLoader(
