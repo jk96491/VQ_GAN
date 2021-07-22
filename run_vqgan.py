@@ -4,6 +4,7 @@ from torchvision.utils import save_image
 from Utils import CIFARLoadData
 from Utils import SkinDataLoad
 from Utils import get_device
+from Utils import saveImages
 from  VQ_GAN.model import vq_gan
 
 
@@ -66,13 +67,10 @@ if __name__ == '__main__':
                 wet = test_data[label == 2]
 
                 if len(dry) is not 0:
-                    save_image(real_data[label == 0], "images/dry/%d_real.png" % batches_done, nrow=args.nrow, normalize=False)
-                    save_image(dry, "images/dry/%d_fake.png" % batches_done, nrow=args.nrow, normalize=False)
+                    saveImages(real_data[label == 0], dry, epoch)
                 if len(normal) is not 0:
-                    save_image(real_data[label == 1], "images/normal/%d_real.png" % batches_done, nrow=args.nrow, normalize=False)
-                    save_image(normal, "images/normal/%d_fake.png" % batches_done, nrow=args.nrow, normalize=False)
+                    saveImages(real_data[label == 1], normal, epoch)
                 if len(wet) is not 0:
-                    save_image(real_data[label == 2], "images/wet/%d_real.png" % batches_done, nrow=args.nrow, normalize=False)
-                    save_image(wet, "images/wet/%d_fake.png" % batches_done, nrow=args.nrow, normalize=False)
+                    saveImages(real_data[label == 2], wet, epoch)
 
 

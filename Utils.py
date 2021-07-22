@@ -3,7 +3,7 @@ import torch
 from torchvision import datasets
 import torchvision.transforms as transforms
 import torch.nn as nn
-
+from torchvision.utils import save_image
 
 def MnistLoadData(image_size, batch_size, train, generate_image):
     if generate_image is True:
@@ -77,6 +77,11 @@ def SkinDataLoad(batch_size, generate_image):
         pin_memory=True)
 
     return  train_loader
+
+def saveImages(real_data, fake_data ,epoch):
+    for i in range(len(real_data)):
+        curList = [real_data[i], fake_data[i]]
+        save_image(curList, "images/dry/Epoch%d_%d.png" % (epoch, i), nrow=1, normalize=False)
 
 
 def conv_3x3(in_planes, out_planes, stride=1):
