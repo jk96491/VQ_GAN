@@ -66,11 +66,11 @@ if __name__ == '__main__':
                 normal = test_data[label == 1]
                 wet = test_data[label == 2]
 
-                if len(dry) is not 0:
-                    saveImages(real_data[label == 0], dry, epoch)
-                if len(normal) is not 0:
-                    saveImages(real_data[label == 1], normal, epoch)
-                if len(wet) is not 0:
-                    saveImages(real_data[label == 2], wet, epoch)
+                if len(dry) != 0:
+                    saveImages(real_data[label == 0], dry, epoch, "dry")
+                if len(normal) != 0:
+                    saveImages(real_data[label == 1], normal, epoch, "normal")
+                if len(wet) != 0:
+                    saveImages(real_data[label == 2], wet, epoch, "wet")
 
 

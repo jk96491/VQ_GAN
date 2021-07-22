@@ -78,10 +78,10 @@ def SkinDataLoad(batch_size, generate_image):
 
     return  train_loader
 
-def saveImages(real_data, fake_data ,epoch):
+def saveImages(real_data, fake_data ,epoch, type):
     for i in range(len(real_data)):
         curList = [real_data[i], fake_data[i]]
-        save_image(curList, "images/dry/Epoch%d_%d.png" % (epoch, i), nrow=1, normalize=False)
+        save_image(curList, "images/%s/Epoch%d_%d.png" % (type, epoch, i), nrow=1, normalize=False)
 
 
 def conv_3x3(in_planes, out_planes, stride=1):
