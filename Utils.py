@@ -64,7 +64,7 @@ def SkinDataLoad(batch_size, generate_image):
     train_loader = torch.utils.data.DataLoader(
         TrainImageFolder(traindir,
                          transforms.Compose([
-                             transforms.RandomResizedCrop(64),
+                             transforms.RandomResizedCrop(128),
                              transforms.RandomHorizontalFlip(),
                              #transforms.Grayscale(num_output_channels=1),
                              transforms.ToTensor(),
