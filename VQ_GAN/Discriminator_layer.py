@@ -46,4 +46,4 @@ class Discriminator(nn.Module):
         x = x.view(batch_size, -1)
         output = self.layer6(x)
 
-        return output
+        return output.squeeze(1)
