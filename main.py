@@ -6,9 +6,6 @@ from torch.utils.data import DataLoader
 from VQ_VAE.VQ_VAE import vq_vae
 import torch.optim as optim
 import torch.nn.functional as F
-from torchvision.utils import make_grid
-import matplotlib.pyplot as plt
-from scipy.signal import savgol_filter
 import torchvision.utils as vutils
 import os
 
@@ -26,7 +23,6 @@ validation_data = datasets.CIFAR10(root="data", train=False, download=True,
                                       transforms.Normalize((0.5,0.5,0.5), (1.0,1.0,1.0))
                                   ]))
 
-#data_variance = np.var(training_data.data / 255.0)
 
 batch_size = 256
 num_training_updates = 55000

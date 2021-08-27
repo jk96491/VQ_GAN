@@ -1,16 +1,13 @@
 import torch
 from VQ_GAN.Parser_args import parse_Arg
 from torchvision.utils import save_image
-from Utils import CIFARLoadData
 from Utils import SkinDataLoad
-from Utils import get_device
-from Utils import saveImages
-from  VQ_GAN.model import vq_gan
+from VQ_GAN.model import vq_gan
 import os
 
 args = parse_Arg()
 
-batch_size = 32
+batch_size = 4
 
 num_hiddens = 128
 num_residual_hiddens = 32
@@ -34,7 +31,7 @@ train_loader = SkinDataLoad(mode, args.batch_size, True)
 device1 = 'cuda:0'
 device2 = 'cuda:1'
 
-device = [device2, device1]
+device = [device1, device1]
 
 target_epoch = 9950
 

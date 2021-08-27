@@ -33,7 +33,7 @@ class vq_gan(nn.Module):
         self.real_loss = None
 
     def learn_discriminator(self, inputs, real_labels, fake_labels):
-        output = self.Discriminator(inputs).unsqueeze(1)
+        output = self.Discriminator(inputs)
         real_loss = self.adversarial_loss(output, real_labels)
 
         #noise = np.random.normal(0, 1, inputs.shape)
