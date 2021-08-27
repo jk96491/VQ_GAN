@@ -29,10 +29,7 @@ class Discriminator(nn.Module):
                                     nn.LeakyReLU(0.2, inplace=True))
 
         self.layer5 = nn.Sequential(nn.Conv2d(self.noise_filter * 8, 1,
-                                              kernel_size=4, stride=1, padding=0, bias=False),
-                                    nn.LeakyReLU(0.2, inplace=True))
-
-        self.layer6 = nn.Sequential(nn.Linear(25, 1),
+                                              kernel_size=2, stride=1, padding=0, bias=False),
                                     nn.Sigmoid())
 
     def forward(self, inputs):
@@ -42,8 +39,5 @@ class Discriminator(nn.Module):
         x = self.layer4(x)
         x = self.layer5(x)
 
-        batch_size = x.shape[0]
-        x = x.view(batch_size, -1)
-        output = self.layer6(x)
-
-        return output.squeeze(1)
+        output = x.view(inputs.shape[0], -1)
+        return output
