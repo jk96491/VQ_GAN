@@ -36,9 +36,9 @@ train_loader = DataLoader(training_data,
                              pin_memory=True)
 
 device1 = 'cuda:0'
-device2 = 'cuda:0'
+device2 = 'cuda:1'
 
-device = [device1, device1]
+device = [device2, device1]
 
 final_index = len(training_data.targets) // batch_size
 
