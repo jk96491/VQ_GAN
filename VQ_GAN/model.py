@@ -36,8 +36,8 @@ class vq_gan(nn.Module):
         output = self.Discriminator(inputs).unsqueeze(1)
         real_loss = self.adversarial_loss(output, real_labels)
 
-        noise = np.random.normal(0, 1, inputs.shape)
-        inputs = inputs + torch.FloatTensor(noise).to(self.device[1])
+        #noise = np.random.normal(0, 1, inputs.shape)
+        #inputs = inputs + torch.FloatTensor(noise).to(self.device[1])
 
         _, fake, _ = self.Generator(inputs.to(self.device[0]))
         discriminator_result = self.Discriminator(fake.to(self.device[1]).detach()).unsqueeze(1)
@@ -55,10 +55,15 @@ class vq_gan(nn.Module):
         vq_loss, fake, perplexity = self.Generator(inputs.to(self.device[0]))
         discriminator_result = self.Discriminator(fake.to(self.device[1])).unsqueeze(1)
         recon_loss = self.recon_loss(inputs.to(self.device[0]), fake.to(self.device[0]))
-        loss = self.adversarial_loss(discriminator_result, label) + vq_loss + recon_loss
+        loss = self.adversarial_loss(discriminator_result.to(self.device[0]), label.to(self.device[0])) + vq_loss + recon_loss
 
         self.optimizer_generator.zero_grad()
         loss.backward()
         self.optimizer_generator.step()
 
         return loss.item(), perplexity
+
+    def generate_image(self, inputs):
+        _, fake, _ = self.Generator(inputs.to(self.device[0]))
+
+        return fake

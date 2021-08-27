@@ -43,24 +43,30 @@ class TrainImageFolder(datasets.ImageFolder):
 
     def __getitem__(self, index):
         filename = self.imgs[index]
-        if filename[0].split('\\')[2] == 'out_dry01':
+        if filename[0].split('\\')[1] == 'Train_dry':
             label = 0
-        elif filename[0].split('\\')[2] == 'out_normal01':
+        elif filename[0].split('\\')[1] == 'Train_normal':
             label = 1
         else:
             label = 2
 
-        return super(TrainImageFolder, self).__getitem__(index)[0], label
+        return super(TrainImageFolder, self).__getitem__(index)[0], label, filename[0].split('\\')[3]
 
 
-def SkinDataLoad(batch_size, generate_image):
+def SkinDataLoad(mode, batch_size, generate_image):
     if generate_image is True:
         os.makedirs("images", exist_ok=True)
         os.makedirs("images/dry", exist_ok=True)
         os.makedirs("images/normal", exist_ok=True)
         os.makedirs("images/wet", exist_ok=True)
 
-    traindir = 'skinData\\Train'
+    if mode == 'dry':
+        traindir = 'skinData\\Train_dry'
+    elif mode == 'normal':
+        traindir = 'skinData\\Train_normal'
+    else:
+        traindir = 'skinData\\Train_wet'
+
     train_loader = torch.utils.data.DataLoader(
         TrainImageFolder(traindir,
                          transforms.Compose([
@@ -68,7 +74,7 @@ def SkinDataLoad(batch_size, generate_image):
                              transforms.RandomHorizontalFlip(),
                              #transforms.Grayscale(num_output_channels=1),
                              transforms.ToTensor(),
-                             transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+                             #transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
                              # normalize,
                          ])),
         batch_size=batch_size,
